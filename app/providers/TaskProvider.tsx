@@ -7,13 +7,15 @@ interface Task {
   date: string;
   time: string;
   id: number;
+  completed: boolean;
 }
 
 interface TaskContextType {
   tasks: Task[];
+  clearAllTasks: () => void;
   addTask: (task: Task) => void;
   deleteTask: (id: number) => void;
-  clearAllTasks: () => void;
+  toggleTaskComplete: (id: number) => void;
 }
 
 const TaskContext = createContext<TaskContextType | undefined>(undefined);
@@ -71,6 +73,12 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== id));
   };
 
+  const toggleTaskComplete = (id: number) => {
+    setTasks(tasks.map(task =>
+      task.id === id ? { ...task, completed: !task.completed } : task
+    ));
+  };
+
   const clearAllTasks = async () => {
     try {
       await AsyncStorage.removeItem("tasks");
@@ -85,7 +93,7 @@ export const TaskProvider: React.FC<TaskProviderProps> = ({ children }) => {
   }
 
   return (
-    <TaskContext.Provider value={{ tasks, addTask, deleteTask,  clearAllTasks}}>
+    <TaskContext.Provider value={{ tasks, clearAllTasks, addTask, deleteTask, toggleTaskComplete }}>
       {children}
     </TaskContext.Provider>
   );
