@@ -17,30 +17,30 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: "black",
-        headerShown: useClientOnlyValue(false, true),
-      }}
-    >
-      <Tabs.Screen
-        name="index"
-        options={{
-          title: "Home",
-          tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
-          headerShown: false,
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: "black",
+          headerShown: useClientOnlyValue(false, true),
         }}
-      />
-      <Tabs.Screen
-        name="two"
-        options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => (
-            <TabBarIcon name="list-alt" color={color} />
-          ),
-          headerShown: false,
-        }}
-      />
-    </Tabs>
+      >
+        <Tabs.Screen
+          name="index"
+          options={{
+            title: "Home",
+            tabBarIcon: ({ color }) => <TabBarIcon name="home" color={color} />,
+            headerShown: false,
+          }}
+        />
+        <Tabs.Screen
+          name="two"
+          options={{
+            title: "Tab Two",
+            tabBarIcon: ({ color }) => (
+              <TabBarIcon name="list-alt" color={color} />
+            ),
+            headerShown: false,
+          }}
+        />
+      </Tabs>
   );
 }
