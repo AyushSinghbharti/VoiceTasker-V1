@@ -66,15 +66,15 @@ export const TaskItem: React.FC<TaskItemProps> = ({ index, task, onDelete, onTog
       <Animated.View style={[styles.background, { opacity: interpolatedOpacityLeft }]}>
         <View style={[styles.action, styles.leftAction]}>
           <MaterialCommunityIcons
-            name={task.completed ? "checkbox-marked-circle-outline" : "checkbox-blank-circle-outline"}
-            size={24}
+            name={!task.completed ? "checkbox-marked-circle-outline" : "checkbox-blank-circle-outline"}
+            size={30}
             color="#fff"
           />
         </View>
       </Animated.View>
       <Animated.View style={[styles.background, { opacity: interpolatedOpacityRight }]}>
         <View style={[styles.action, styles.rightAction]}>
-          <MaterialCommunityIcons name="delete-outline" size={24} color="#fff" />
+          <MaterialCommunityIcons name="delete-outline" size={30} color="#fff" style={{alignSelf: 'flex-end'}}/>
         </View>
       </Animated.View>
       <PanGestureHandler
@@ -134,10 +134,10 @@ const styles = StyleSheet.create({
   action: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    paddingHorizontal: 18,
   },
   leftAction: {
-    backgroundColor: '#E3F2FD',
+    backgroundColor: '#BBE0F2',
   },
   rightAction: {
     backgroundColor: '#FF3B30',
