@@ -1,4 +1,4 @@
-import React, { useContext, useState, useCallback } from "react";
+import React, { useContext, useState, useCallback, useEffect } from "react";
 import {
   View,
   Text,
@@ -16,6 +16,7 @@ import useMainBackend from "../backend/mainBackend";
 
 export default function index() {
   const taskContext = useContext(TaskContext);
+  const [loading, setLoading] = useState<boolean>(false);
 
   if (!taskContext) {
     console.error(
@@ -40,17 +41,22 @@ export default function index() {
     />
   );
 
+  useEffect(() => {
+    if (task) {
+      for (var i = 0; i < task.length; i++) {
+        console.log(task[i]);
+        const updatedTask = { ...task[i], id: tasks.length + i };
+        addTask(updatedTask);
+      }
+      setLoading(false);
+    }
+  }, [task]);
+
   const toggleRecording = () => {
     if (recording) {
       stopRecording();
+      setLoading(true);
 
-      if (task) {
-        for (var i = 0; i < task.length; i++) {
-          console.log(task[i]);
-          const updatedTask = { ...task[i], id: tasks.length + i };
-          addTask(updatedTask);
-        }
-      }
     } else {
       startRecording();
     }
@@ -84,7 +90,7 @@ export default function index() {
           </View>
         )}
       </LinearGradient>
-      <FloatingActionButton onPress={toggleRecording} isRec={!!recording} />
+      <FloatingActionButton onPress={toggleRecording} isRec={!!recording} isLoading={loading} />
     </SafeAreaView>
   );
 }

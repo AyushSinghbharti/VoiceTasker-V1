@@ -1,15 +1,17 @@
 import React from "react";
-import { TouchableOpacity, StyleSheet, Animated } from "react-native";
+import { TouchableOpacity, StyleSheet, Animated, ActivityIndicator } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface FloatingActionButtonProps {
   onPress: () => void;
   isRec: boolean;
+  isLoading: boolean;
 }
 
 const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
   onPress,
   isRec,
+  isLoading
 }) => {
   const animatedValue = new Animated.Value(0);
 
@@ -52,7 +54,22 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({
         </Animated.View>
       </TouchableOpacity>
     );
-  } else {
+  } else if(isLoading) {
+    return (
+      <TouchableOpacity
+        style={[styles.container]}
+        onPress={onPress}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        activeOpacity={1}
+      >
+        <Animated.View style={[styles.buttonStart, animatedStyle]}>
+          {/* <MaterialCommunityIcons name="microphone" size={32} color="#fff" /> */}
+          <ActivityIndicator size="large" color="#fff" />
+        </Animated.View>
+      </TouchableOpacity>
+    );
+  }else {
     return (
       <TouchableOpacity
         // style={styles.container}
