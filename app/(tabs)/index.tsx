@@ -5,27 +5,20 @@ import TaskContext from '../providers/TaskProvider';
 import TaskItem from '../components/TaskItem';
 import FloatingActionButton from '../components/FloatingActionButton';
 import Task from '../interface/interface';
+import useMainBackend from "../backend/mainBackend";
 
-export default function TabOneScreen() {
+export default function index() {
   const taskContext = useContext(TaskContext);
-  const [refreshing, setRefreshing] = useState(false);
-
+  
   if (!taskContext) {
     console.error(
       "TaskContext is undefined. Ensure TaskProvider is wrapping your component."
     );
     return null;
   }
-
+  
   const { tasks, addTask, deleteTask } = taskContext;
-
-  const onRefresh = useCallback(() => {
-    setRefreshing(true);
-    // Simulate a refresh
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 1000);
-  }, []);
+  const { startRecording, stopRecording, recording } = useMainBackend();
 
   const toggleTaskComplete = (id: number) => {
     taskContext.toggleTaskComplete(id);
@@ -39,6 +32,14 @@ export default function TabOneScreen() {
       onToggleComplete={toggleTaskComplete}
     />
   );
+
+  const toggleRecording = () => {
+    if (recording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -58,8 +59,6 @@ export default function TabOneScreen() {
             keyExtractor={(item) => item.id.toString()}
             contentContainerStyle={styles.listContainer}
             showsVerticalScrollIndicator={false}
-            refreshing={refreshing}
-            onRefresh={onRefresh}
           />
         ) : (
           <View style={styles.emptyContainer}>
@@ -68,18 +67,7 @@ export default function TabOneScreen() {
           </View>
         )}
       </LinearGradient>
-      <FloatingActionButton
-        onPress={() =>
-          addTask({
-            id: tasks.length + 1,
-            title: "New Task",
-            description: "This is a new task.",
-            date: new Date().toISOString().split('T')[0],
-            time: new Date().toTimeString().split(' ')[0].slice(0, 5),
-            completed: false,
-          })
-        }
-      />
+      <FloatingActionButton onPress={toggleRecording} isRec={!!recording} />
     </SafeAreaView>
   );
 }
