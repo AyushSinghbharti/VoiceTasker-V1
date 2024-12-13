@@ -14,7 +14,7 @@ import FloatingActionButton from "../components/FloatingActionButton";
 import Task from "../interface/interface";
 import useMainBackend from "../backend/mainBackend";
 
-export default function index() {
+export default function completeList() {
   const taskContext = useContext(TaskContext);
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -32,24 +32,27 @@ export default function index() {
     taskContext.toggleTaskComplete(id);
   };
 
-  const renderItem = ({ item, index }: { item: Task; index: number }) => (
-    <TaskItem
-      index={index}
-      task={item}
-      onDelete={deleteTask}
-      onToggleComplete={toggleTaskComplete}
-    />
-  );
+  const renderItem = ({ item, index }: { item: Task; index: number }) => {
+    if (!item.completed) {
+      return null;
+    }
+  
+    return (
+      <TaskItem
+        index={index}
+        task={item}
+        onDelete={deleteTask}
+        onToggleComplete={toggleTaskComplete}
+      />
+    );
+  };
 
   useEffect(() => {
     if (task) {
       for (var i = 0; i < task.length; i++) {
-        console.log("task as homepage", task[i]);
-        const updatedTask = { ...task[i], id: tasks.length + i + 1 };
-        if (updatedTask.title !== "" && updatedTask.title !== null) {
-          addTask(updatedTask);
-        }
-        console.log("updated task", updatedTask);
+        console.log(task[i]);
+        const updatedTask = { ...task[i], id: tasks.length + i };
+        addTask(updatedTask);
       }
       setLoading(false);
     }
@@ -59,6 +62,7 @@ export default function index() {
     if (recording) {
       stopRecording();
       setLoading(true);
+
     } else {
       startRecording();
     }
@@ -72,8 +76,8 @@ export default function index() {
         style={styles.gradient}
       >
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>My Tasks</Text>
-          <Text style={styles.headerSubtitle}>{tasks.length} tasks</Text>
+          <Text style={styles.headerTitle}>Completed Tasks</Text>
+          <Text style={styles.headerSubtitle}>{tasks.filter((task) => task.completed).length} Completed tasks</Text>
         </View>
         {tasks.length > 0 ? (
           <FlatList
@@ -92,11 +96,7 @@ export default function index() {
           </View>
         )}
       </LinearGradient>
-      <FloatingActionButton
-        onPress={toggleRecording}
-        isRec={!!recording}
-        isLoading={loading}
-      />
+      <FloatingActionButton onPress={toggleRecording} isRec={!!recording} isLoading={loading} />
     </SafeAreaView>
   );
 }

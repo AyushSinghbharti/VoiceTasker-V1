@@ -34,7 +34,7 @@ const handleGeminiQuery = async (
                   id: number;
                   title: string, try your max to understand query and assign;
                   description: string, Add discription by yourself by analysing the title;
-                  date: assign a data in the format "DD-MM-YYYY" that is mentioned in the query else put todays date;
+                  date: Assign todays or tommorow date or the date mentioned in the query;
                   time: IN THE FORMAT "HH:MM";
                   completed: boolean;
 

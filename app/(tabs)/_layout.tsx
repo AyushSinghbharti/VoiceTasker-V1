@@ -32,9 +32,9 @@ export default function TabLayout() {
           }}
         />
         <Tabs.Screen
-          name="two"
+          name="completeList"
           options={{
-            title: "Tab Two",
+            title: "Complete List",
             tabBarIcon: ({ color }) => (
               <TabBarIcon name="list-alt" color={color} />
             ),
