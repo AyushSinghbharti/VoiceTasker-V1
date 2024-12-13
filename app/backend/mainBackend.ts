@@ -58,6 +58,7 @@ const useMainBackend = () => {
       await recording.stopAndUnloadAsync();
       const uri = recording.getURI();
       setRecording(null);
+      if(!uri) return;
 
       // const { sound } = await Audio.Sound.createAsync({ uri });
       // await sound.playAsync();
@@ -68,7 +69,17 @@ const useMainBackend = () => {
       // console.log("Transcription:", result.transcription);
 
       const response = await transcribeText(result.transcription);
-      setTask(response.response);
+
+      const parsedResponse = JSON.parse(response.response);
+      const formattedTasks: Task[] = parsedResponse.map((item: any) => ({
+        id: item.id,
+        title: item.title,
+        description: item.description,
+        date: item.date,
+        time: item.time,
+        completed: item.completed,
+      }));
+      setTask(formattedTasks);
       // console.log(response.response);
     } catch (err) {
       console.error("Failed to stop recording or play audio", err);

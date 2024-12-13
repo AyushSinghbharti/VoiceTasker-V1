@@ -27,7 +27,7 @@ const handleGeminiQuery = async (
             parts: [
               {
                 text: `Hey Gemini, Youre acting as a backend API here. I want you to analyze the sentence and answer only in resticted format. If you answer me in any different format then the app will crash. So, be careful and return me answer in same fromat on every call.
-                
+                the formet should be in JSON format with no extra spaces between.
                 Return me the List of tasks eg. [{}, {}, {}]
 
                 The format of each task contain:

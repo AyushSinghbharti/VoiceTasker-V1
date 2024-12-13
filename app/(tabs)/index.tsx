@@ -44,8 +44,13 @@ export default function index() {
     if (recording) {
       stopRecording();
 
-      //task is in the format of [{t1}, {t2}, {t3}]
-      // addTask(task); Execute this function in proper way
+      if (task) {
+        for (var i = 0; i < task.length; i++) {
+          console.log(task[i]);
+          const updatedTask = { ...task[i], id: tasks.length + i };
+          addTask(updatedTask);
+        }
+      }
     } else {
       startRecording();
     }
