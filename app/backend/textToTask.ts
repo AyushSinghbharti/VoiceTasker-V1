@@ -1,3 +1,5 @@
+import { template } from "@babel/core";
+
 interface GeminiQueryResponse {
   response: string;
   isLoading: boolean;
@@ -24,17 +26,20 @@ const handleGeminiQuery = async (
           {
             parts: [
               {
-                text: `Analyze the sentence and answer only in format. matching the Task interface:
-                {
-                  [
+                text: `Hey Gemini, Youre acting as a backend API here. I want you to analyze the sentence and answer only in resticted format. If you answer me in any different format then the app will crash. So, be careful and return me answer in same fromat on every call.
+                
+                Return me the List of tasks eg. [{}, {}, {}]
+
+                The format of each task contain:
                   id: number;
                   title: string, try your max to understand query and assign;
                   description: string, Add discription by yourself by analysing the title;
-                  date: assign a latest data in the format "YYYY-MM-DD";
+                  date: assign a latest data in the format "DD-MM-YYYY";
                   time: IN THE FORMAT "HH:MM";
-                  isDone: boolean;
-                  ]
-                }. If recieved miltiple task, return a object contain multiple task. If the sentence cannot be understood, return {null} for that task. Output the JSON format. Sentence: "${query}"`,
+                  completed: boolean;
+
+                If you cannot understand the query then return {null} for that task.  Sentence: "${query}"
+                `,
               },
             ],
           },

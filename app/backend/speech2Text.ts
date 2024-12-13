@@ -139,8 +139,6 @@ const SpeechToText = async (
         // Parse the response
         const data = await response.json();
 
-        console.log("Transcription API Response:", data);
-
         // Check for model loading error
         if (data.error && data.error.includes("currently loading")) {
           if (attempt < MAX_RETRIES) {

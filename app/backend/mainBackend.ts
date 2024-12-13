@@ -7,7 +7,7 @@ import Task from "../interface/interface";
 const useMainBackend = () => {
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
   const [transcription, setTranscription] = useState<string>("");
-  const [tasks, setTasks] = useState<Task | null>();
+  const [task, setTask] = useState<Task[] | null>([]);
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [permissionResponse, requestPermission] = Audio.usePermissions();
 
@@ -59,17 +59,17 @@ const useMainBackend = () => {
       const uri = recording.getURI();
       setRecording(null);
 
-      const { sound } = await Audio.Sound.createAsync({ uri });
-      await sound.playAsync();
+      // const { sound } = await Audio.Sound.createAsync({ uri });
+      // await sound.playAsync();
 
       const result = await transcribeAudio(uri);
       setTranscription(result.transcription);
       setIsProcessing(result.isProcessing);
-      console.log("Transcription:", result.transcription);
+      // console.log("Transcription:", result.transcription);
 
       const response = await transcribeText(result.transcription);
-      // setTasks(response);
-      console.log(response.response);
+      setTask(response.response);
+      // console.log(response.response);
     } catch (err) {
       console.error("Failed to stop recording or play audio", err);
     }
@@ -89,6 +89,7 @@ const useMainBackend = () => {
     recording,
     transcription,
     isProcessing,
+    task,
   };
 };
 

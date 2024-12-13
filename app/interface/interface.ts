@@ -4,5 +4,5 @@ export default interface Task {
   description: string;
   date: string;
   time: string;
-  isDone: boolean;
+  completed: boolean;
 }
