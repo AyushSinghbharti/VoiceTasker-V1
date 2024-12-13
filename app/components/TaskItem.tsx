@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native
 import { PanGestureHandler, PanGestureHandlerGestureEvent } from 'react-native-gesture-handler';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import Task from '../interface/interface';
+import * as Speech from 'expo-speech';
 
 interface TaskItemProps {
   index: number;
@@ -61,6 +62,10 @@ export const TaskItem: React.FC<TaskItemProps> = ({ index, task, onDelete, onTog
     extrapolate: 'clamp',
   });
 
+  const speak = () => {
+    Speech.speak(task.title + '\n In detail: ' + task.description + '\n' + task.date + '\n at \n' + task.time);
+  };
+
   return (
     <View style={styles.container}>
       <Animated.View style={[styles.background, { opacity: interpolatedOpacityLeft }]}>
@@ -83,9 +88,10 @@ export const TaskItem: React.FC<TaskItemProps> = ({ index, task, onDelete, onTog
       >
         <Animated.View style={[
           styles.foreground,
-          { opacity: fadeAnim, transform: [{ translateX: interpolatedTranslateX }] }
+          {opacity: fadeAnim, transform: [{ translateX: interpolatedTranslateX }] }
         ]}>
-          <TouchableOpacity onPress={() => onToggleComplete(task.id)}>
+          {/* <TouchableOpacity onPress={() => onToggleComplete(task.id)}> */}
+          <TouchableOpacity onPress={() => speak()}>
             <View style={styles.taskContent}>
               <View style={styles.taskHeader}>
                 <MaterialCommunityIcons
