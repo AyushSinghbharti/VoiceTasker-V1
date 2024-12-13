@@ -11,7 +11,7 @@ const FloatingActionButton: React.FC<FloatingActionButtonProps> = ({ onPress }) 
 
   const handlePressIn = () => {
     Animated.spring(animatedValue, {
-      toValue: 10,
+      toValue: 5,
       useNativeDriver: true,
     }).start();
   };
