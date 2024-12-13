@@ -1,10 +1,13 @@
 import { Audio } from "expo-av";
 import { useState } from "react";
 import SpeechToText from "./speech2Text";
+import handleGeminiQuery from "./textToTask";
+import Task from "../interface/interface";
 
 const useMainBackend = () => {
   const [recording, setRecording] = useState<Audio.Recording | null>(null);
   const [transcription, setTranscription] = useState<string>("");
+  const [tasks, setTasks] = useState<Task | null>();
   const [isProcessing, setIsProcessing] = useState<boolean>(false);
   const [permissionResponse, requestPermission] = Audio.usePermissions();
 
@@ -63,6 +66,10 @@ const useMainBackend = () => {
       setTranscription(result.transcription);
       setIsProcessing(result.isProcessing);
       console.log("Transcription:", result.transcription);
+
+      const response = await transcribeText(result.transcription);
+      // setTasks(response);
+      console.log(response.response);
     } catch (err) {
       console.error("Failed to stop recording or play audio", err);
     }
@@ -70,6 +77,10 @@ const useMainBackend = () => {
 
   const transcribeAudio = async (uri: string) => {
     return SpeechToText(uri);
+  };
+
+  const transcribeText = async (query: string) => {
+    return handleGeminiQuery(query);
   };
 
   return {
