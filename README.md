@@ -1,14 +1,17 @@
 ﻿# VoiceTasker-V1
 
-#OverView of the app:
+## OverView of the app:
 
 
 
 https://github.com/user-attachments/assets/2f036eb8-6197-487f-b5e7-80e6282fc587
 
 
+## All about this app:
+[Mini Project PPT.pptx](https://github.com/user-attachments/files/18585494/Mini.Project.PPT.pptx)
 
-#All about this app:
+
+## All about this app:
 
 
 #Hosting QR:
